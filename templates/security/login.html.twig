@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block h1 %}Пожалуйста войдите или зарегистрируйтесь{% endblock %}
+
+{% block content %}
+    <div class="row align-items-center">
+        <div class="offset-sm-4 col-sm-4">
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            <form action="{{ path('security_login') }}" method="post">
+                <label for="inputUsername">Email пользователя:</label>
+                <input type="email" value="{{ last_user_email }}" name="_username" id="inputUsername"
+                       class="form-control"
+                       required
+                       autofocus>
+
+                <label for="inputPassword">Пароль</label>
+                <input type="password" name="_password" id="inputPassword" class="form-control" required>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Запомнить меня
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit">Войти</button>
+            </form>
+            <div class="pt-3">
+                <a href="{{ path('security_registration') }}">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

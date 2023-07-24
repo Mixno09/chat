@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Главная{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="{{ asset('css/bootstrap.min.css', 'bootstrap') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-grid.min.css', 'bootstrap') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-reboot.min.css', 'bootstrap') }}" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+    <title>Hello, world!</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <main role="main" class="col-md-12 ml-sm-auto px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">{% block h1 %}{% endblock %}</h1>
+            </div>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="{{ asset('js/bootstrap.min.js', 'bootstrap') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js', 'bootstrap') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

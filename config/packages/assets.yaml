@@ -1,0 +1,7 @@
+framework:
+    assets:
+        version_format: '%%s?v=%%s'
+        packages:
+            bootstrap:
+                base_path: '/bootstrap'
+                version: '4.1.3'
