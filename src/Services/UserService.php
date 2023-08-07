@@ -33,9 +33,8 @@ class UserService
             throw new EntityExistsException("User by email {$email} already exist.");
         }
 
-        $user = new User();
+        $user = new User($email);
         $passwordHash = $this->passwordHasher->hashPassword($user, $password);
-        $user->setEmail($email);
         $user->setPassword($passwordHash);
 
         $this->entityManager->persist($user);

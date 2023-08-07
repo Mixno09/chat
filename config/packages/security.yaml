@@ -21,7 +21,12 @@ security:
                 check_path: security_login
             entry_point: form_login 
             logout: 
-                path: secutity_logout
+                path: security_logout
+                target: security_login
+                invalidate_session: true
+                clear_site_data: 
+                    - cookies
+                    - storage
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800

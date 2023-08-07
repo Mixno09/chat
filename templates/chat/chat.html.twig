@@ -1,0 +1,130 @@
+{% extends 'base.authenticated.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block content %}
+    <body>
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-4 border-right">
+                <div class="settings-tray">
+                    <img class="profile-image"
+                         src="https://placeholder.co/50x50"
+                         alt="">
+                    <span class="settings-tray--right">
+
+                        <button onclick="document.getElementById('id01').style.display='block'">
+                            <img src="/icons/add_FILL0_wght500_GRAD-25_opsz24.png" alt=""> Создать чат
+                        </button>
+
+                        <!-- The Modal -->
+                            <div id="id01" class="modal">
+                                <span onclick="document.getElementById('id01').style.display='none'"
+                                      class="close" title="Close Modal">&times;</span>
+
+                                <!-- Modal Content -->
+                                {{ form_start(formCreateChat, {'attr': {'class': 'modal-content animate'}}) }}
+                                    <div class="container">
+                                        {{ form_label(formCreateChat.name, 'Название чата') }}
+                                        {{ form_widget(formCreateChat.name, {'attr': {'placeholder': 'Введите название чата'}}) }}
+
+                                        <button type="submit">Создать</button>
+                                    </div>
+
+                                    <div class="container">
+                                        <button type="button"
+                                                onclick="document.getElementById('id01').style.display='none'"
+                                                class="cancelbtn">Отмена</button>
+                                    </div>
+                                {{ form_end(formCreateChat) }}
+                            </div>
+
+		            </span>
+                </div>
+                <div class="search-box">
+                    <div class="input-wrapper">
+                        {% if chatId is not null %}
+                            <form method="get" action="{{ path('chat', {'chatId': chatId}) }}">
+                                <input name="q" type="text" value="{{ search }}" placeholder="Поиск сдесь">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% for chat in chats %}
+                    <a href="{{ path('chat', {'chatId': chat.id }) }}">
+                        <div class="friend-drawer {% if chat.id is same as(chatId) %}friend-drawer--onhover{% endif %}">
+                            <img class="profile-image"
+                                 src="https://placeholder.co/50x50"
+                                 alt="">
+                            <div class="text">
+                                <h6>{{ chat.name }}</h6>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="col-md-8">
+                <div class="settings-tray">
+                    <div class="friend-drawer no-gutters friend-drawer--grey">
+                        <img class="profile-image"
+                             src="https://placeholder.co/50x50" alt="">
+                        <div class="text">
+                            <h6>{{ app.user.email }}</h6>
+                        </div>
+                        <span class="settings-tray--right">
+			                <form action="{{ path('security_logout') }}" method="post">
+                                <button type="submit" class="ml-auto text-left"
+                                        style="color: white; background-color: #343a40">Выйти</button>
+                             </form>
+			            </span>
+                    </div>
+                </div>
+                    <div class="chat-panel">
+                        {% for message in messages %}
+                            <div class="row no-gutters">
+                                <div class="col-md-10 {% if message.user.id is same as(app.user.id) %}offset-md-2{% endif %}">
+                                    <div class="chat-bubble {% if message.user.id is same as(app.user.id) %}chat-bubble--right{% else %}chat-bubble--left{% endif %}">
+                                        <span class="badge badge-secondary badge-pill">
+                                            {{ message.createdAt|date('Y-m-d H:i:s') }}
+                                        </span>
+                                        <span class="badge badge-secondary badge-pill">
+                                            {{ message.user.email }}
+                                        </span>
+                                        <br>
+                                        {{ message.text }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="chat-box-tray">
+                                    {% if formCreateMessage is not null %}
+                                        {{ form_start(formCreateMessage) }}
+                                        {{ form_widget(formCreateMessage.text, {'attr': {'placeholder': 'Введите сообщение сдесь'}}) }}
+                                        <button type="submit">
+                                            <img src="/icons/publish_FILL0_wght500_GRAD0_opsz40.png" alt="">
+                                        </button>
+                                        {{ form_end(formCreateMessage) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var errors = {{ errors|json_encode|raw }};
+        var message = errors.join("\n");
+        if (message) {
+            alert(message);
+        }
+    </script>
+{% endblock %}

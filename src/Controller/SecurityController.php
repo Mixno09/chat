@@ -31,7 +31,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->userService->create($data->email, $data->password);
-            $response = $this->security->login($user);
+            $response = $this->security->login($user, 'form_login');
             if ($response instanceof Response) {
                 return $response;
             }
@@ -44,7 +44,7 @@ class SecurityController extends AbstractController
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('index');
+            return $this->redirectToRoute('chat');
         }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUserEmail = $authenticationUtils->getLastUsername();
@@ -60,11 +60,5 @@ class SecurityController extends AbstractController
     {
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
-    }
-
-    #[Route('/', name: 'index', methods: 'GET')]
-    public function index()
-    {
-
     }
 }
